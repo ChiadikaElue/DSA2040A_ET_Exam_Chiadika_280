@@ -1,0 +1,4 @@
+InvoiceNo,InvoiceDate,Quantity,UnitPrice,CustomerID,Description,Country
+1001,2011-10-31,1,10.0,12345,Widget A,United Kingdom
+1002,2011-11-05,2,20.0,23456,Widget B,United Kingdom
+1003,2011-11-20,1,30.0,34567,Widget C,United Kingdom
