@@ -1,0 +1,31 @@
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Large data files (keep only the required ones)
+*.csv
+!data/raw_data.csv
+!data/incremental_data.csv
+!data/validated_*.csv
+!transformed/transformed_*.csv
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyd
+
+# Environment variables
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+
+# Large binary files that shouldn't be in repo
+*.xlsx
+*.xls
+*.pdf
