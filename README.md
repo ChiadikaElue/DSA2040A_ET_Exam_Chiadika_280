@@ -14,7 +14,7 @@ This project demonstrates Extract and Transform operations on the Online Retail 
 
 ### Extract Phase
 - Loaded raw dataset (~540,000 rows) and incremental subset
-- Performed data profiling using `.head()`, `.info()`, and `.describe()`
+- Performed data profiling using .head(), .info(), and .describe()
 - Identified and documented data quality issues:
   1. Missing values in CustomerID and Description columns
   2. Inconsistent data types (dates as strings)
@@ -43,22 +43,28 @@ Applied 7+ transformations across multiple categories:
 ## Steps to Run the Project
 
 1. Clone the repository:
+
 git clone <repository-url>
+
 cd DSA2040A_ET_Exam_Chiadika_280
 
-Ensure required packages are installed:
+2. Ensure required packages are installed:
+
 pip install pandas numpy matplotlib seaborn jupyter
 
-Run the extraction notebook:
+3. Run the extraction notebook:
+
 jupyter notebook etl_extract.ipynb
+
 Execute all cells in order
 
-Run the transformation notebook:
+4. Run the transformation notebook:
+
 jupyter notebook etl_transform.ipynb
 
-Execute all cells in order
+5. Execute all cells in order
 
-Check the output files in /data and /transformed directories
+6. Check the output files in /data and /transformed directories
 
 ## Sample Output
 
