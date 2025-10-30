@@ -99,21 +99,37 @@ In the final Load stage, the transformed datasets were stored in SQLite database
 - **SQLite Database** - For relational querying and SQL operations
 
 #### Code Implementation:
-```python
+
 import sqlite3
 conn = sqlite3.connect('loaded/retail_data.db')
 df_full.to_sql('full_retail_data', conn, if_exists='replace', index=False)
 df_incremental.to_sql('incremental_retail_data', conn, if_exists='replace', index=False)
-Verification Code Snippet:
-python
-# Verify data loaded correctly
-sample_data = pd.read_sql('SELECT * FROM full_retail_data LIMIT 5', conn)
-record_count = pd.read_sql('SELECT COUNT(*) as count FROM full_retail_data', conn)
 
-print("Sample data from SQLite:")
-print(sample_data)
-print(f"Record count: {record_count.iloc[0,0]}")
-Issues Faced & Solutions:
+#### Verification Code Snippet:
+``` # Verify Record Counts
+print("Record Count Verification")
+
+# Check record counts for both tables
+full_count = pd.read_sql('SELECT COUNT(*) as record_count FROM full_retail_data', conn).iloc[0,0]
+inc_count = pd.read_sql('SELECT COUNT(*) as record_count FROM incremental_retail_data', conn).iloc[0,0]
+
+print(f"Record counts in SQLite:")
+print(f"Full data: {full_count} records")
+print(f"Incremental data: {inc_count} records")
+
+# Compare with original DataFrame sizes
+print(f"\nOriginal DataFrame sizes:")
+print(f"Full data: {len(df_full)} records")
+print(f"Incremental data: {len(df_incremental)} records")
+
+# Verify data integrity
+if len(df_full) == full_count and len(df_incremental) == inc_count:
+    print("Data integrity verified - all records loaded successfully")
+else:
+    print("Data count mismatch detected")
+```
+
+#### Issues Faced & Solutions:
 Issue: File path errors when loading transformed CSV files
 
 Solution: Used raw strings (r'path') for Windows file paths to handle backslashes properly
@@ -126,11 +142,14 @@ Issue: Data type mismatches between CSV and SQLite
 
 Solution: Used pandas to_sql() with automatic type inference and verified schema with PRAGMA table_info()
 
-Verification Results:
-All records successfully transferred from CSV to SQLite
+### Verification Results:
+``` Record Count Verification
+Record counts in SQLite:
+Full data: 6 records
+Incremental data: 3 records
 
-Data integrity maintained (record counts match)
-
-Schema correctly created with appropriate data types
-
-Successful query execution for business analytics
+Original DataFrame sizes:
+Full data: 6 records
+Incremental data: 3 records
+Data integrity verified - all records loaded successfully
+```
