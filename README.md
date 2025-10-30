@@ -89,3 +89,48 @@ Data columns (total 13 columns):
  12  SalesBracket  5 non-null      object        
 dtypes: datetime64[ns](1), float64(5), int64(2), object(5)
 
+## Load & Verification
+
+### Load Phase Implementation
+
+In the final Load stage, the transformed datasets were stored in SQLite database format for optimal querying and data management.
+
+#### Format Used:
+- **SQLite Database** - For relational querying and SQL operations
+
+#### Code Implementation:
+```python
+import sqlite3
+conn = sqlite3.connect('loaded/retail_data.db')
+df_full.to_sql('full_retail_data', conn, if_exists='replace', index=False)
+df_incremental.to_sql('incremental_retail_data', conn, if_exists='replace', index=False)
+Verification Code Snippet:
+python
+# Verify data loaded correctly
+sample_data = pd.read_sql('SELECT * FROM full_retail_data LIMIT 5', conn)
+record_count = pd.read_sql('SELECT COUNT(*) as count FROM full_retail_data', conn)
+
+print("Sample data from SQLite:")
+print(sample_data)
+print(f"Record count: {record_count.iloc[0,0]}")
+Issues Faced & Solutions:
+Issue: File path errors when loading transformed CSV files
+
+Solution: Used raw strings (r'path') for Windows file paths to handle backslashes properly
+
+Issue: Database connection remaining open causing file lock
+
+Solution: Implemented proper connection closing with conn.close() after all operations
+
+Issue: Data type mismatches between CSV and SQLite
+
+Solution: Used pandas to_sql() with automatic type inference and verified schema with PRAGMA table_info()
+
+Verification Results:
+All records successfully transferred from CSV to SQLite
+
+Data integrity maintained (record counts match)
+
+Schema correctly created with appropriate data types
+
+Successful query execution for business analytics
